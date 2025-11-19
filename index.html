@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>USTO S3 Average Calculator</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    animation: fadeIn 1s ease;
+  }
+  .red {
+    color: #ff4444;
+    text-align: center;
+    font-size: 1.2rem;
+    animation: fadeIn 1.2s ease;
+  }
+  .container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    background: #222;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    animation: slideUp 0.8s ease;
+  }
+  p { text-align: center; }
+  a img {
+    width: 35px;
+    vertical-align: middle;
+    transition: 0.3s;
+  }
+  a img:hover {
+    transform: scale(1.15);
+  }
+  .subject {
+    padding: 18px;
+    background: #2c2c2c;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+  }
+  .subject:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  }
+  label {
+    display: block;
+    margin-top: 10px;
+    font-size: 1.1rem;
+  }
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1rem;
+  }
+  button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    margin-top: 20px;
+    background: #00aaff;
+    color: white;
+    font-size: 1.3rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover {
+    background: #0088dd;
+    transform: scale(1.03);
+  }
+  #result {
+    margin-top: 25px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    animation: fadeIn 0.8s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media(max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .container { padding: 18px; }
+    input, button { font-size: 1.2rem; }
+    .subject { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Average Calculator</h1>
+  <p class="red">By Islem Amrani (0xislem)</p>
+  <p>My instagram: <a href="https://www.instagram.com/0xislem/" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"></a></p>
+
+  <div id="subjects"></div>
+
+  <button onclick="calculateAverage()">Calculate Average</button>
+  <div id="result"></div>
+</div>
+
+<script>
+const subjects = [
+  { name: "Architecture des ordinateurs", coeff: 3, fields: ["tp","td","exam"] },
+  { name: "Algorithmique et structure de données 3", coeff: 3, fields: ["tp","td","exam"] },
+  { name: "Systèmes d’information", coeff: 3, fields: ["tp","td","exam"] },
+  { name: "Théorie des graphes", coeff: 2, fields: ["td","exam"] },
+  { name: "Méthodes numériques", coeff: 2, fields: ["tp","exam"] },
+  { name: "Logique mathématique", coeff: 2, fields: ["td","exam"] },
+  { name: "Langue étrangère 2", coeff: 1, fields: ["exam"] }
+];
+
+let container = document.getElementById("subjects");
+subjects.forEach((s, index) => {
+  let div = document.createElement("div");
+  div.className = "subject";
+  div.innerHTML = `<h3>${s.name} (Coeff ${s.coeff})</h3>`;
+
+  s.fields.forEach(f => {
+    div.innerHTML += `
+      <label>${f.toUpperCase()} mark:</label>
+      <input type="number" id="${f}_${index}" min="0" max="20" step="0.01" />
+    `;
+  });
+
+  container.appendChild(div);
+});
+
+function calculateAverage() {
+  let total = 0, coeffSum = 0;
+
+  subjects.forEach((s, index) => {
+    let sum = 0;
+    s.fields.forEach(f => {
+      let v = parseFloat(document.getElementById(`${f}_${index}`).value) || 0;
+      sum += v;
+    });
+    let subjectAvg = sum / s.fields.length;
+    total += subjectAvg * s.coeff;
+    coeffSum += s.coeff;
+  });
+
+  let avg = total / coeffSum;
+  let result = document.getElementById("result");
+
+  if (avg > 10) result.innerHTML = `Average: ${avg.toFixed(2)} — sahith bela3 semestre`;
+  else if (avg === 10) result.innerHTML = `Average: ${avg.toFixed(2)} — slkt b ch3ra`;
+  else result.innerHTML = `Average: ${avg.toFixed(2)} — khtra jaya nchllh bon courage za3im`;
+}
+</script>
+
+</body>
+</html>
+
